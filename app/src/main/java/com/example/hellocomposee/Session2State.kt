@@ -2,8 +2,10 @@ package com.example.hellocomposee
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.hellocomposee.ui.theme.HelloComposeeTheme
 
 /*
  * ========== 2교시: 상태 관리와 화면 업데이트 ==========
@@ -60,6 +63,48 @@ fun Session2Counter() {
 
 // 예제2: State Hoisting, 상태를 상위로 올린 카운터
 @Composable
-fun Session2CounterHoisted() {
+fun Session2CounterHoisted(
+    count: Int,
+    onCountChange:(Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text("Hoisted 카운트: $count")
+        Button(onClick = {onCountChange(count+1)}){
+            Text("증가")
+        }
+    }
+}
 
+@Preview
+@Composable
+fun Session2CounterHoistedPreview(modifier: Modifier = Modifier) {
+    HelloComposeeTheme {
+        var count by remember { mutableStateOf(0) }
+        Session2CounterHoisted(count = count, onCountChange = { count = it })
+    }
+}
+
+// 예제3: TextField, 입력이 실시간으로 화면에 반영
+@Preview
+@Composable
+fun SessionTextField() {
+    var text by remember {mutableStateOf("")}
+    Column(
+        modifier = Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ){
+        OutlinedTextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("이름 입력(개행도 들어가지롱)")},
+            modifier = Modifier.fillMaxWidth()
+        )
+        Text("실시간 반영: $text")
+    }
 }
