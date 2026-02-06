@@ -55,7 +55,9 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.compose.foundation.layout) // # ViewModel 확장 라이브러리를 위해 추가
+    implementation(libs.androidx.compose.foundation.layout) // Session5 - Navigation 라이브러리를 위해 추가
+    implementation(libs.androidx.navigation.runtime.ktx) // Session5 - Navigation 라이브러리를 위해 추가
+    implementation(libs.androidx.navigation.compose) // Session3 - ViewModel 확장 라이브러리를 위해 추가
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
