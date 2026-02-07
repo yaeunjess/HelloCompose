@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -88,9 +89,9 @@ fun Session5MainScreen(
         modifier = modifier.padding(16.dp)
     ){
         Text(
-           "프로필 목록 - 카드 클릭 시 상세로 이동",
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
+            "프로필 목록 - 카드 클릭 시 상페 페이지로 이동",
+            style=MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(bottom=16.dp),
         )
         profiles.forEach { profile ->
             Session5ProfileCard(
@@ -104,19 +105,19 @@ fun Session5MainScreen(
 @Composable
 fun Session5ProfileCard(
     profile: Session5Profile,
-    onClick: () -> Unit,
+    onClick: ()->Unit, //콜백 함수,
     modifier: Modifier = Modifier
-) {
+){
     Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp) // compose는 UI에 있어서 위에서 아래로 순차적으로 적용됨!
-            .padding(16.dp) // 그러므로, 상하에 24.dp, 좌우에 16.dp 값 만큼 패딩된다.
+            .padding(16.dp)  // 결과적으로 상하에 24.dp, 좌우에 16.dp 값 만큼 패딩된다.
             .clickable(onClick = onClick)
             .background(MaterialTheme.colorScheme.surfaceVariant),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ){
-        Box(
+        Box( //여러 요소를 겹치거나, 내부 요소를 정렬할 때 사용하기 좋다.
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
@@ -124,33 +125,33 @@ fun Session5ProfileCard(
             contentAlignment = Alignment.Center,
         ){
             Text(
-                profile.name.first().toString(),
-                color = MaterialTheme.colorScheme.onPrimary
+                profile.name.first().toString(), //.first()는 문자열이나 리스트에서 가장 첫번째 글자(Char)를 꺼내온다.
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         }
         Text(
-            text = profile.name,
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 8.dp),
+            text =profile.name,
+            style= MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 8.dp)
         )
         Row(modifier = Modifier.padding(top = 4.dp)){
             Text(profile.role, style = MaterialTheme.typography.bodySmall)
         }
         Text(
-            text="더보기",
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.primary,
+            text="more...",
+            style= MaterialTheme.typography.labelMedium,
+            color= MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(top = 8.dp)
         )
     }
-
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Session5DetailScreen(
     profileId: String?,
-    onBack: () -> Unit,
+    onBack: ()->Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -164,7 +165,7 @@ fun Session5DetailScreen(
                 }
             )
         }
-    ){  innerPadding ->
+    ){ innerPadding ->
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -173,12 +174,12 @@ fun Session5DetailScreen(
         ){
             Text(
                 text = "전달받은 프로필 ID: ${profileId ?: "(없음)"}",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             Text(
                 text = "실제 앱에서는 이 ID로 API 호출해 상세 정보를 불러옵니다.",
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(top=16.dp)
             )
         }
     }
@@ -186,21 +187,21 @@ fun Session5DetailScreen(
 
 @Composable
 fun Session5NavHost(
-    navController: NavHostController = rememberNavController(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
         startDestination = Session5Routes.MAIN,
         modifier = modifier,
     ){
-        composable(route=Session5Routes.MAIN){
+        composable(route = Session5Routes.MAIN){
             Session5MainScreen(navController)
         }
         composable(
-            route= Session5Routes.DETAIL,
-            arguments = listOf(navArgument(Session5Routes.DETAIL_NAME_ARG){type= NavType.StringType})
-        ){ backStackEntry->
+            route = Session5Routes.DETAIL,
+            arguments = listOf(navArgument(Session5Routes.DETAIL_NAME_ARG){type = NavType.StringType})
+        ){ backStackEntry ->
             val profileId = backStackEntry.arguments?.getString(Session5Routes.DETAIL_NAME_ARG)
             Session5DetailScreen(
                 profileId = profileId,
@@ -212,7 +213,7 @@ fun Session5NavHost(
 
 @Preview
 @Composable
-fun Session5MainScreenPreview() {
+fun Session5MainScreenVeiw() {
     HelloComposeeTheme() {
         Session5NavHost()
     }
